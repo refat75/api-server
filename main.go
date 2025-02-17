@@ -12,29 +12,23 @@ func main() {
 	r.Use(middleware.Logger)
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello World")
+		fmt.Fprint(w, "Hello from book-server")
 	})
 	r.Post("/login", LoginHandler)
 	r.Post("/logout", LogoutHandler)
 
-	r.Route("/api", func(r chi.Router) {
+	r.Route("/books", func(r chi.Router) {
 		r.Use(JWTAuthMiddleware) // Apply middleware to all routes in this group
-		r.Get("/protected", ProtectedHandler)
-		r.Get("/dashboard", DashboardHandler)
+		bookHandler := BookHandler{}
+		r.Get("/", bookHandler.ListBooks)
+		r.Post("/", bookHandler.CreateBook)
+		r.Get("/{id}", bookHandler.GetBooks)
+		r.Put("/{id}", bookHandler.UpdateBook)
+		r.Delete("/{id}", bookHandler.DeleteBook)
 	})
 
 	err := http.ListenAndServe(":8081", r)
 	if err != nil {
 		fmt.Println("Could not start server", err)
 	}
-}
-
-func ProtectedHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	fmt.Fprint(w, "Welcome to the protected area")
-}
-
-func DashboardHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	fmt.Fprint(w, "Welcome to the dashboard")
 }

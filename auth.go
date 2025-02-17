@@ -26,7 +26,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if u.Username == "admin" && u.Password == "123456" {
-		expirationTime := time.Now().Add(2 * time.Minute)
+		expirationTime := time.Now().Add(20 * time.Minute)
 		tokenString, err := createToken(u.Username, expirationTime)
 		if err != nil {
 			http.Error(w, "Error creating token", http.StatusInternalServerError)
