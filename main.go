@@ -8,6 +8,8 @@ import (
 )
 
 func main() {
+	bookHandler := BookHandler{}
+
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
@@ -19,7 +21,6 @@ func main() {
 
 	r.Route("/books", func(r chi.Router) {
 		r.Use(JWTAuthMiddleware) // Apply middleware to all routes in this group
-		bookHandler := BookHandler{}
 		r.Get("/", bookHandler.ListBooks)
 		r.Post("/", bookHandler.CreateBook)
 		r.Get("/{id}", bookHandler.GetBooks)
