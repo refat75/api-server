@@ -10,7 +10,7 @@ Here I will be using `kind` for creating kubernetes cluster. Since Kind runs Kub
 
 ### Load Local Docker Image into Kind
 ```bash
-$ kind load docker-image `<your-image-name:tag>`
+$ kind load docker-image <your-image-name:tag>
 ```
 Now provide the actual image name `spec.containers.image` section in `deployment.yaml` file. Also adjust your application port in `deployment.yaml` and `service.yaml` file.
 
