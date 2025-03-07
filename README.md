@@ -34,6 +34,20 @@ $ kubectl delete -f deployment.yaml
 $ kubectl delete -f service.yaml
 ```
 
+# Book Server Description
+
+## API Endpoints
+|Method|Route Type|        URL       |       Description      |
+|------|--------- |------------------|------------------------|
+| `GET`| `Public` | `/`              |Hello Message From Server|
+|`POST`| `Public` | `/login`         |For logging in. Necessary to provide credentials.|
+|`POST`| `Public` | `/logout`        |For logging out.|
+|`GET` |`Private` | `/books`         |Get all the listed books.|
+|`POST`|`Private` | `/books`         |Create a new book. Necessary to provide book description.|
+|`GET` |`Private` | `/books/{id}`    |Get a single book using book id.|
+|`PUT` |`Private` | `/books/{id}`    |Update book using id.|
+|`Delete`|`Private`|`/books/{id}`    |Delete a book using id.|
+
 ## Login Credentials
 ```json
 {
