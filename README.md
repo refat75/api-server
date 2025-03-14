@@ -1,39 +1,25 @@
-# API Book-Server Deployment and Services in Kubernetes Cluster
+# API Book-Server Deployment and Services in Kubernetes Cluster using HELM
 
-To continue further make sure that your api-server docker image is present on locally. You can check the image existence by using the following command.
-
+### Install the Helm Chart
 ```shell
-$ docker image ls
+$ helm install my-app api-server-helm-chart
 ```
-
-Here I will be using `kind` for creating kubernetes cluster. Since Kind runs Kubernetes inside Docker containers, your local Docker images are not automatically available inside the Kind cluster. You need to load your locally built image into the Kind cluster before using it in a Deployment.
-
-### Load Local Docker Image into Kind
-```bash
-$ kind load docker-image <your-image-name:tag>
+### Check the  installation
+```shell
+$ helm list -a
 ```
-Now provide the actual image name `spec.containers.image` section in `deployment.yaml` file. Also adjust your application port in `deployment.yaml` and `service.yaml` file.
+If everything is correct you will see the name `my-app` in the list.
 
-## Apply YAML File
-
-```bash
-$ kubectl apply -f deployment.yaml
-$ kubectl apply -f service.yaml
-```
-
-## Port Forwarding
+### Port Forwarding
 ```bash
 $ kubectl port-forward svc/<your-service-name> 8080:<targetPort>
 ```
-
 If everything works perfectly the application can be accessed at: [http://localhost:8080/](http://localhost:8080/)
 
-## Clean Up Using YAML File
-```bash
-$ kubectl delete -f deployment.yaml 
-$ kubectl delete -f service.yaml
+### Uninstall the Helm Chart
+```shell
+$ helm uninstall my-app
 ```
-
 # Book Server Description
 
 ## API Endpoints
@@ -54,3 +40,7 @@ $ kubectl delete -f service.yaml
     "username": "admin",
     "password": "123456"
 }
+```
+
+# Tutorial Link
+1. [Complete Helm Chart Tutorial: From Beginner to Expert Guide](https://www.youtube.com/watch?v=DQk8HOVlumI)
