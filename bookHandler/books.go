@@ -1,13 +1,10 @@
-package main
+package bookHandler
 
 import (
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
 	"net/http"
 )
-
-type BookHandler struct {
-}
 
 type Book struct {
 	ID               string `json:"id"`
@@ -31,14 +28,14 @@ func listBooks() []*Book {
 	return books
 }
 
-func (b BookHandler) ListBooks(w http.ResponseWriter, r *http.Request) {
+func ListBooks(w http.ResponseWriter, r *http.Request) {
 	err := json.NewEncoder(w).Encode(listBooks())
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 }
-func (b BookHandler) GetBooks(w http.ResponseWriter, r *http.Request) {
+func GetBooks(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	book := getBook(id)
 	if book == nil {
@@ -50,7 +47,7 @@ func (b BookHandler) GetBooks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-func (b BookHandler) CreateBook(w http.ResponseWriter, r *http.Request) {
+func CreateBook(w http.ResponseWriter, r *http.Request) {
 	var book Book
 	err := json.NewDecoder(r.Body).Decode(&book)
 	if err != nil {
@@ -64,7 +61,7 @@ func (b BookHandler) CreateBook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-func (b BookHandler) UpdateBook(w http.ResponseWriter, r *http.Request) {
+func UpdateBook(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	var book Book
 	err := json.NewDecoder(r.Body).Decode(&book)
@@ -85,7 +82,7 @@ func (b BookHandler) UpdateBook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-func (b BookHandler) DeleteBook(w http.ResponseWriter, r *http.Request) {
+func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	found := deleteBook(id)
 	if !found {
